@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import "./App.css";
-import Test from "./components/test";
+
+import CardsList from "./components/cardsList/cardslist";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
         padding: "1rem 0.5rem",
       }}
     >
-      <Test />
+      <CardsList  />
     </Box>
   );
 }
