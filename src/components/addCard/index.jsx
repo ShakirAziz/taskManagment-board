@@ -5,7 +5,6 @@ function AddCard({ onHandleAdd, onIsOpen }) {
   const [title, setTitle] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const newCard = { id: Date.now(), title };
     onHandleAdd(newCard);
     onIsOpen(false);
@@ -19,7 +18,7 @@ function AddCard({ onHandleAdd, onIsOpen }) {
   return (
     <Paper sx={{ padding: "0.5rem" }} elevation={2}>
       <Stack
-        gap={0.5}
+        gap={1}
         component="form"
         sx={{
           "& > :not(style)": { width: "100%" },
@@ -36,12 +35,28 @@ function AddCard({ onHandleAdd, onIsOpen }) {
           required
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Button type="submit" color="primary" variant="outlined">
-          Add
-        </Button>
-        <Button color="primary" variant="outlined" onClick={handleCancel}>
-          Cancel
-        </Button>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Button
+            size="small"
+            type="submit"
+            color="primary"
+            variant="contained"
+          >
+            Add
+          </Button>
+          <Button
+            size="small"
+            color="error"
+            variant="contained"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+        </Stack>
       </Stack>
     </Paper>
   );

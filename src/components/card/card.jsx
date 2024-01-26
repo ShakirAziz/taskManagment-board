@@ -49,7 +49,7 @@ function Card({
               <Button
                 startIcon={<AddIcon />}
                 onClick={handleShowAddForm}
-                color="secondary"
+                color="primary"
                 disableFocusRipple
                 disableRipple
               >

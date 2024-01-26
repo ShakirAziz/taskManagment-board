@@ -3,13 +3,16 @@ import Card from "../card/card";
 import { useState } from "react";
 
 function CardsList() {
-  const cardData = [[], [], [], []];
-  const [order, setOrder] = useState(cardData);
+  const initialData = [[], [], [], []];
+  const [order, setOrder] = useState(initialData.map(() => []));
 
   const handleMoveNext = (index) => {
     const updatedOrder = [...order];
     if (index < order.length - 1 && order[index].length > 0) {
-      const movedItem = updatedOrder[index].pop();
+      const movedItem = order[index][order[index].length - 1];
+      updatedOrder[index] = order[index].filter(
+        (_, i) => i !== order[index].length - 1
+      );
       updatedOrder[index + 1].push(movedItem);
       setOrder(updatedOrder);
     }
@@ -17,14 +20,21 @@ function CardsList() {
 
   const handleMovePrevious = (index) => {
     if (index > 0 && order[index].length > 0) {
-      const movedItem = order[index].pop();
+      const movedItem = order[index].filter(
+        (_, i) => i === order[index].length - 1
+      )[0];
       setOrder((prevOrder) => {
         const updatedOrder = [...prevOrder];
+        updatedOrder[index] = order[index].filter(
+          (_, i) => i !== order[index].length - 1
+        );
         updatedOrder[index - 1].push(movedItem);
         return updatedOrder;
       });
     }
   };
+
+  // ...
 
   const handleAddCard = (index, newItem) => {
     setOrder((prevOrder) => {
