@@ -15,10 +15,13 @@ function Card({
   cardTitle,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [editCardTitle, setEditCardTitle] = useState(false);
   const handleShowAddForm = () => {
     setIsOpen(!isOpen);
   };
-
+  const handleEditCardTitle = () => {
+    setEditCardTitle(!editCardTitle);
+  };
   return (
     <>
       <Grid item sm={6} md={3} xs={12}>
@@ -34,6 +37,8 @@ function Card({
             </Stack>
             {data.map((item) => (
               <CardItem
+                onEditCardTitle={handleEditCardTitle}
+                editCardTitle={editCardTitle}
                 key={item.id}
                 item={item}
                 placement={placement}

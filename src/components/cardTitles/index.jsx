@@ -1,11 +1,17 @@
 import { Button, Paper, Stack, Typography } from "@mui/material";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+
 import CustomizedButton from "../customizedButton/CustomizedButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function CardItem({ item, placement, onHandlePrev, onHandleNext }) {
+function CardItem({
+  item,
+  placement,
+  onHandlePrev,
+  onHandleNext,
+  onEditCardTitle,
+  editCardTitle,
+}) {
   const handleNextMain = () => {
     onHandleNext(item);
   };
@@ -35,24 +41,52 @@ function CardItem({ item, placement, onHandlePrev, onHandleNext }) {
             alignItems="center"
           >
             <Typography variant="body2">{item.title}</Typography>
-            <CustomizedButton color="primary" size="small">
-              <EditIcon />
-            </CustomizedButton>
+            {editCardTitle ? (
+              <CustomizedButton color="error" size="small">
+                <DeleteIcon />
+              </CustomizedButton>
+            ) : (
+              <CustomizedButton
+                color="primary"
+                size="small"
+                onClick={onEditCardTitle}
+              >
+                <EditIcon />
+              </CustomizedButton>
+            )}
           </Stack>
           <Stack direction="row" justifyContent="space-between">
-            {previous && (
-              <Button variant="outlined" onClick={handlePrevMain} size="small">
-                Prev
+            {editCardTitle ? (
+              <Button
+                variant="outlined"
+                size="small"
+                color="error"
+                onClick={(e) => onEditCardTitle(false)}
+              >
+                cancle
               </Button>
+            ) : (
+              <>
+                {previous && (
+                  <Button
+                    variant="outlined"
+                    onClick={handlePrevMain}
+                    size="small"
+                  >
+                    Prev
+                  </Button>
+                )}
+                {next && (
+                  <Button
+                    variant="outlined"
+                    onClick={handleNextMain}
+                    size="small"
+                  >
+                    Next
+                  </Button>
+                )}
+              </>
             )}
-            {next && (
-              <Button variant="outlined" onClick={handleNextMain} size="small">
-                Next
-              </Button>
-            )}
-            {/* <CustomizedButton color="error" size="small">
-            <DeleteIcon />
-          </CustomizedButton> */}
           </Stack>
         </Stack>
       </Paper>
