@@ -11,6 +11,7 @@ function CardItem({
   onHandleNext,
   onEditCardTitle,
   editCardTitle,
+  onDeleteCard,
 }) {
   const handleNextMain = () => {
     onHandleNext(item);
@@ -19,7 +20,9 @@ function CardItem({
   const handlePrevMain = () => {
     onHandlePrev(item);
   };
-
+  const hanldeDelete = (item) => {
+    onDeleteCard(item.id);
+  };
   let previous = true;
   let next = true;
 
@@ -41,11 +44,7 @@ function CardItem({
             alignItems="center"
           >
             <Typography variant="body2">{item.title}</Typography>
-            {editCardTitle ? (
-              <CustomizedButton color="error" size="small">
-                <DeleteIcon />
-              </CustomizedButton>
-            ) : (
+            {editCardTitle ? null : (
               <CustomizedButton
                 color="primary"
                 size="small"
@@ -57,14 +56,25 @@ function CardItem({
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             {editCardTitle ? (
-              <Button
-                variant="outlined"
-                size="small"
-                color="error"
-                onClick={(e) => onEditCardTitle(false)}
-              >
-                cancle
-              </Button>
+              <>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="error"
+                  onClick={(e) => hanldeDelete(item)}
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="error"
+                  onClick={(e) => onEditCardTitle(false)}
+                >
+                  cancle
+                </Button>
+              </>
             ) : (
               <>
                 {previous && (

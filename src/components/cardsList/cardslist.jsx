@@ -1,45 +1,50 @@
 import { Grid } from "@mui/material";
-import Card from "../card/card";
 import { useState } from "react";
+import Card from "../card/card";
 
 function CardsList() {
   const initialData = [[], [], [], []];
   const [order, setOrder] = useState(initialData.map(() => []));
 
-  const handleMoveNext = (index) => {
-    const updatedOrder = [...order];
-    if (index < order.length - 1 && order[index].length > 0) {
-      const movedItem = order[index][order[index].length - 1];
-      updatedOrder[index] = order[index].filter(
-        (_, i) => i !== order[index].length - 1
-      );
-      updatedOrder[index + 1].push(movedItem);
-      setOrder(updatedOrder);
-    }
-  };
-
-  const handleMovePrevious = (index) => {
-    if (index > 0 && order[index].length > 0) {
-      const movedItem = order[index].filter(
-        (_, i) => i === order[index].length - 1
-      )[0];
-      setOrder((prevOrder) => {
-        const updatedOrder = [...prevOrder];
-        updatedOrder[index] = order[index].filter(
-          (_, i) => i !== order[index].length - 1
-        );
-        updatedOrder[index - 1].push(movedItem);
-        return updatedOrder;
-      });
-    }
-  };
-
-  // ...
-
   const handleAddCard = (index, newItem) => {
     setOrder((prevOrder) => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index].push(newItem);
+      return updatedOrder;
+    });
+  };
+
+  const moveCard = (fromIndex, toIndex) => {
+    setOrder((prevOrder) => {
+      const updatedOrder = [...prevOrder];
+      if (prevOrder[fromIndex].length > 0) {
+        const movedItem = prevOrder[fromIndex][prevOrder[fromIndex].length - 1];
+        updatedOrder[fromIndex] = prevOrder[fromIndex].filter(
+          (item) => item !== movedItem
+        );
+        updatedOrder[toIndex].push(movedItem);
+      }
+      return updatedOrder;
+    });
+  };
+
+  const handleMoveNext = (index) => {
+    if (index < order.length - 1) {
+      moveCard(index, index + 1);
+    }
+  };
+
+  const handleMovePrevious = (index) => {
+    if (index > 0) {
+      moveCard(index, index - 1);
+    }
+  };
+
+  const handleDeleteCard = (data) => {
+    setOrder((prevOrder) => {
+      const updatedOrder = prevOrder.map((item) =>
+        item.filter((i) => i.id !== data.id)
+      );
       return updatedOrder;
     });
   };
@@ -63,6 +68,7 @@ function CardsList() {
           onHandlePrev={() => handleMovePrevious(index - 1)}
           onHandleNext={() => handleMoveNext(index - 1)}
           data={order[index - 1]}
+          onDeleteCard={handleDeleteCard}
         />
       ))}
     </Grid>

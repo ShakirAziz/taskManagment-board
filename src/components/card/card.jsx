@@ -13,6 +13,7 @@ function Card({
   onHandleAdd,
   placement,
   cardTitle,
+  onDeleteCard,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [editCardTitle, setEditCardTitle] = useState(false);
@@ -44,6 +45,7 @@ function Card({
                 placement={placement}
                 onHandlePrev={onHandlePrev}
                 onHandleNext={onHandleNext}
+                onDeleteCard={onDeleteCard}
               />
             ))}
             {isOpen && (
